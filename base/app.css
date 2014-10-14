@@ -1,0 +1,49 @@
+
+/* Doucument wide general styles. */
+body{
+    font: 1em Verdana, Geneva, sans-serif;
+    padding: 0;
+    margin: 5px;
+    color: Black;
+    background-color: WhiteSmoke; /* One of the 140 colours named */
+}
+div
+{
+    padding: 0;
+    margin: 0;
+}
+button
+{
+    cursor: pointer;
+}
+.hidden
+{
+    display: none;
+}
+
+/* End of document wide styles */
+
+/* Styles for 'app' and 'main' elements */
+#app
+{
+    margin: 4px;
+    background-color: #bbc;
+}
+#app>header
+{
+    padding: 0 0.5em;
+    font-size: 1.5em;
+    color: WhiteSmoke;
+    background-color: #006;
+}
+#app>footer
+{
+    padding: 0.25em;
+    color: WhiteSmoke;
+    background-color: #006;
+}
+#main
+{
+    margin: 1em;
+}
+/* End of style definition for 'app' and 'main' elements */
