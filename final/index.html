@@ -4,13 +4,24 @@
         <title>Task@Hand</title>
         <meta charset="UTF-8">
         <link href="app.css" rel="StyleSheet" />
+        <!-- The href value below will be set at load time by the function ;setTheme() in app.js -->
+        <link id="theme-style" href="themes/blue.css" rel="StyleSheet" />
         <script src="lib/jquery-2.1.1.js"></script>
         <script src="appStorage.js"></script>
         <script src="app.js"></script>
     </head>
     <body>
         <div id="app">
-            <header>Task@Hand</header>  
+            <header>Task@Hand</header>
+            <div id="toolbar">
+                <label for="theme">Theme</label>
+                <select id="theme" title="Select a theme">
+                    <option value="blue">Blue</option>
+                    <option value="green">Green</option>
+                    <option value="magenta">Magenta</option>
+                    <option value="red">Red</option>
+                </select>
+            </div>
             <div id="main">
                 <div id="add-task">
                     <!-- 'for' binds the label to input element with 'new-task-name' id -->

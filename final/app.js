@@ -112,6 +112,31 @@ function TaskAtHandApp()
         }
     }
     
+    function onChangeTheme()
+    {
+        // Get the value of the selected option
+        var theme = $("#theme>option").filter(":selected").val();
+        setTheme(theme);
+        appStorage.setValue("theme", theme);
+    }
+    
+    function setTheme(theme)
+    {
+        // Change the 'href' value to selected theme's stylesheet in the html file
+        $("#theme-style").attr("href", "themes/" + theme + ".css");
+    }
+    
+    function loadTheme()
+    {
+        var theme = appStorage.getValue("theme");
+        if (theme)
+        {
+            setTheme(theme);
+            // Set the selected attribute of theme select option
+            $("#theme>option[value=" + theme +"]").attr("selected", "selected");
+        }
+    }
+    
     this.start = function()
     {
         $("#new-task-name").keypress(function(e)
@@ -123,9 +148,11 @@ function TaskAtHandApp()
             }
         })
         .focus();
-        
+        // Theme change
+        $("#theme").change(onChangeTheme);
+                
         $("#app>header").append(version);
-        
+        loadTheme();
         loadTaskList();
         setStatus("ready");
     };
