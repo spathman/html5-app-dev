@@ -6,9 +6,10 @@
         <link href="app.css" rel="StyleSheet" />
         <!-- The href value below will be set at load time by the function ;setTheme() in app.js -->
         <link id="theme-style" href="themes/blue.css" rel="StyleSheet" />
-        <script src="lib/jquery-2.1.1.js"></script>
-        <script src="appStorage.js"></script>
-        <script src="app.js"></script>
+        <script src="lib/jquery-2.1.1.js" type="text/javascript"></script>
+        <script src="jscript/appStorage.js" type="text/javascript"></script>
+        <script src="jscript/app.js" type="text/javascript"></script>
+        <script src="jscript/taskList.js" type="text/javascript"></script>
     </head>
     <body>
         <div id="app">
@@ -49,29 +50,33 @@
                         <button class="move-up" title="Up">^</button>
                         <button class="move-down" title="Down">v</button>
                     </div>
-                    
+
                     <!-- 'details' can be styled differently from task name -->
                     <div  class="details">
                         <label>Start date:</label>
-                        <input type="date"/><br/>
+                        <input type="date" data-field="startDate"/><br/>
                         <label>Due date:</label>
-                        <input type="date"/><br/>
+                        <input type="date" data-field="dueDate"/><br/>
                         <label>Status:</label>
-                        <select>
+                        <select data-field="status">
                             <option value="0">None</option>
                             <option value="1">Not Started</option>
                             <option value="2">Started</option>
                             <option value="3">Completed</option>
+
                         </select><br/>
                         <label>Priority:</label>
-                        <select>
+                        <select data-field="priority">
+
                             <option value="0">None</option>
                             <option value="1">Low</option>
                             <option value="2">Normal</option>
                             <option value="3">High</option>
+
                         </select><br/>
                         <label>Complete:</label>
-                        <input type="number" min="0" max="100" step="10" value="0"/>
+                        <input type="number" data-field="pctComplete"
+                               min="0" max="100" step="10" value="0"/>
                     </div>
                 </li>
             </ul>

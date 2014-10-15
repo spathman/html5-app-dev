@@ -52,6 +52,7 @@ button
 {
     position: absolute;
     bottom: 0; /* Fix the footer to the bottom left of the window */
+    font-size: 0.75em;
     padding: 0.25em;
     color: WhiteSmoke; 
     background-color: #006;
