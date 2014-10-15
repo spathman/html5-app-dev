@@ -52,6 +52,7 @@ button
 {
     position: absolute;
     bottom: 0; /* Fix the footer to the bottom left of the window */
+    font-size: 0.75em;
     padding: 0.25em;
     color: WhiteSmoke; 
     background-color: #006;
@@ -116,7 +117,7 @@ button
 #task-list .task .tools
 {
     position: absolute;
-    top: 0.25em;
+    top: 0.5em;
     right: 0.25em;
     border: 1px solid black;
     border-radius: 2px;
@@ -127,7 +128,8 @@ button
     -o-transition: all 0.25s ease;
     transition: all 0.25s ease;
 }
-#task-list .task .tools button
+#task-list .task .tools button,
+#task-list .task button.toggle-details
 {
     margin: 0;
     padding: 0;
@@ -136,6 +138,14 @@ button
     background: url(images/icons.png) no-repeat;
     border: none;
     color: transparent;
+}
+#task-list .task button.toggle-details
+{
+    background-position: 0 -16px;
+}
+#task-list .task button.toggle-details.expanded
+{
+    background-position: -16px -16px;
 }
 #task-list .task:hover .tools,
 #task-list .task.selected .tools
@@ -161,4 +171,25 @@ button
    color: whitesmoke;
    background-color: rgba(0,0,0,0.4);
 }
-
+#task-list .task .details
+{
+    display: none;
+    background-color: gray;
+    color: white;
+    border-radius: 4px;
+    margin-top: 0.5em;
+    padding: 0.25em;
+    overflow: auto;
+}
+#task-list .task .details label
+{
+    width: 8em;
+    text-align: right;
+    display: inline-block;
+    vertical-align: top;
+    font-size: 0.8em;
+}
+#task-list .task .details select
+{
+    width: 8em;
+}
