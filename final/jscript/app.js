@@ -2,20 +2,32 @@
 
 function TaskAtHandApp()
 {
-    var version = "v3.2",
+    var version = "v3.3",
         appStorage = new AppStorage("taskAtHand"),
-        taskList = new TaskList();
+        taskList = new TaskList(),
+        timeoutId = 0;
 
-    function setStatus(msg)
+    function setStatus(msg, noFade)
     {
         $("#app>footer").text(msg).show();
+        if (!noFade)
+        {
+            $("#app>footer").fadeOut(1000);
+        }
     }
 
     function saveTaskList()
     {
-        setStatus("saving...");
-        appStorage.setValue("taskList", taskList.getTasks());
-        setStatus("changes saved.");
+        if (timeoutId) clearTimeout(timeoutId); // If any pending saving, cancel it 
+        setStatus("saving changes...", true);
+        timeoutId = setTimeout(function()
+        {
+            appStorage.setValue("taskList", taskList.getTasks());
+            timeoutId = 0;
+            setStatus("changes saved.");  
+        },
+        2000);
+        
     }
     
     function loadTaskList()
