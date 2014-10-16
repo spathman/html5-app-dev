@@ -53,6 +53,12 @@ function TaskList(tasks)
         return null;
     };
     
+    this.moveTask = function(taskId, moveUp)
+    {
+        var index = (moveUp ? getTaskIndex(taskId)-1 : getTaskIndex(taskId) + 1);
+        var task = this.removeTask(taskId);
+        tasks.splice(index,0,task);
+    };
     function getTaskIndex(taskId)
     {
         for (var i in tasks)
