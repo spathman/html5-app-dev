@@ -55,9 +55,10 @@ function TaskList(tasks)
     
     this.moveTask = function(taskId, moveUp)
     {
+        // Get the index to where the task to be moved
         var index = (moveUp ? getTaskIndex(taskId)-1 : getTaskIndex(taskId) + 1);
-        var task = this.removeTask(taskId);
-        tasks.splice(index,0,task);
+        var task = this.removeTask(taskId); // Remove the task from taskList
+        tasks.splice(index,0,task); // Insert the task in the new place
     };
     function getTaskIndex(taskId)
     {

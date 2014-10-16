@@ -130,13 +130,13 @@ function TaskAtHandApp()
     function moveTask($task, moveUp)
     {
         
-        var taskId = $task.data("taskId");
-        var save = false;
+        var taskId = $task.data("taskId"); // Get the id of the task to be moved
+        var save = false; // Flag to indicate whether to save or not
         if (moveUp ) 
         {
             if ($task.prev().data("taskId")){ // If this is not the first item
-                $task.insertBefore($task.prev());
-                taskList.moveTask(taskId, true);
+                $task.insertBefore($task.prev()); 
+                taskList.moveTask(taskId, true); 
                 save = true;
             }        
             
