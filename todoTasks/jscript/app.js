@@ -130,18 +130,29 @@ function TaskAtHandApp()
     function moveTask($task, moveUp)
     {
         
-        if (moveUp)
+        var taskId = $task.data("taskId");
+        var save = false;
+        if (moveUp ) 
         {
-            $task.insertBefore($task.prev());
+            if ($task.prev().data("taskId")){ // If this is not the first item
+                $task.insertBefore($task.prev());
+                taskList.moveTask(taskId, true);
+                save = true;
+            }        
+            
         }
-        else
+        else 
         {
-            $task.insertAfter($task.next());
+            if ($task.next().data("taskId")) { // If this is not the last item
+                $task.insertAfter($task.next());
+                taskList.moveTask(taskId, false);
+                save = true;
+            }
+            
         }
-        var tasks = $("task").data("task");
-        console.log(tasks);
-        // rebuildTaskList();
-        saveTaskList();
+        
+        
+        if(save) saveTaskList(); // save only if the task is moved
     }
 
     function onSelectTask($task)
