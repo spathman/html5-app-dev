@@ -16,6 +16,15 @@
             <div id="main">
                 <div id="toolbar">
                     <div class="dropdown-menu">
+                        <button data-action="menu">Tool</button>
+                        <ul data-option="drawingTool" class="menu">
+                            <li data-value="pen" class="selected">Pen</li>
+                            <li data-value="line">Line</li>
+                            <li data-value="rect">Rectangle</li>
+                            <li data-value="circle">Circle</li>
+                        </ul>
+                    </div>
+                    <div class="dropdown-menu">
                         <button data-action="menu">Color</button>
                         <ul id="color-menu" data-option="penColor" class="menu">
                             <li data-value="red"></li>
@@ -56,8 +65,15 @@
                             <li data-value="14">14</li>
                             <li data-value="16">16</li>
                         </ul>
-                    </div> |
-                    <button data-action="undo">Undo</button> |
+                    </div>
+                    <div class="dropdown-menu">
+                        <button data-action="menu">Fill</button>
+                        <ul data-option="fillShapes" class="menu">
+                            <li data-value="true" class="selected">Yes</li>
+                            <li data-value="false">No</li>
+                        </ul>
+                    </div>
+                    <button data-action="undo">|&nbsp;&nbsp;Undo&nbsp;&nbsp;|</button>
                     <button data-action="clear">Clear</button>
                 </div>
                 <canvas width="600" height="400">

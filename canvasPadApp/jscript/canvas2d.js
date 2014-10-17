@@ -73,7 +73,7 @@ function Canvas2D($canvas)
             context.globalAlpha = newOpacity;
             return this;
         }
-        return context;
+        return context.globalAlpha;
     };
 
     this.savePen = function ()
@@ -86,7 +86,36 @@ function Canvas2D($canvas)
     {
         context.restore();
         return this;
-    }
-}
+    };
 
+    this.drawLine = function (point1, point2)
+    {
+        context.moveTo(point1.x, point1.y);
+        context.lineTo(point2.x, point2.y);
+        context.stroke();
+        return this;
+    };
+
+    this.drawRect = function (point1, point2, fill)
+    {
+        var w = point2.x - point1.x,
+                h = point2.y - point1.y;
+        if (fill)
+            context.fillRect(point1.x, point1.y, w, h);
+        else
+            context.strokeRect(point1.x, point1.y, w, h);
+        return this;
+    };
+
+    this.drawCircle = function (center, radius, fill)
+    {
+        context.beginPath();
+        context.arc(center.x, center.y, radius, 0, 2 * Math.PI, true);
+        if (fill)
+            context.fill();
+        else
+            context.stroke();
+        return this;
+    };
+}
 

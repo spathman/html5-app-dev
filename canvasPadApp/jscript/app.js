@@ -1,10 +1,11 @@
 "use strict";
 function CanvasPadApp()
 {
-    var version = " v4.2",
+    var version = " v4.3",
             canvas2d = new Canvas2D($("#main>canvas")),
             toolbar = new Toolbar($("#toolbar")),
             drawing = false, // Keep track of when we are drawing
+            fillShapes = true,
             curTool = "pen",
             curAction = newAction(curTool),
             actions = []; // Store all the sets of points
@@ -35,7 +36,16 @@ function CanvasPadApp()
 
         if (drawing)
         {
-            curAction.points.push(canvasPoint);
+            if (curTool === "pen")
+            {
+                // Add another point
+                curAction.points.push(canvasPoint);
+            } else {
+
+                // Change the second point
+                curAction.points[1] = canvasPoint;
+            }
+
             redraw();
         }
     }
@@ -50,7 +60,31 @@ function CanvasPadApp()
             canvas2d.penColor(action.color)
                     .penWidth(action.width)
                     .penOpacity(action.opacity);
-            canvas2d.drawPoints(action.points);
+            switch (action.tool)
+            {
+                case "pen":
+                    canvas2d.drawPoints(action.points);
+                    break;
+                case "line":
+                    canvas2d.drawLine(action.points[0],
+                            action.points[1]);
+                    break;
+                case "rect":
+                    canvas2d.drawRect(action.points[0],
+                            action.points[1],
+                            action.fill);
+                    break;
+                case "circle":
+                    var dx = Math.abs(action.points[1].x -
+                            action.points[0].x);
+                    var dy = Math.abs(action.points[1].y -
+                            action.points[0].y);
+                    var radius = Math.min(dx, dy);
+                    canvas2d.drawCircle(action.points[0], radius,
+                            action.fill);
+                    break;
+            }
+
         }
         canvas2d.restorePen();
     }
@@ -105,7 +139,19 @@ function CanvasPadApp()
          set the property in the Canvas2D object. We use the square brace
          method of accessing that method in the object, and then we execute
          it passing the data-value attribute from the menu item into it. */
-        canvas2d[option](value);
+        switch (option)
+        {
+            case "drawingTool":
+                curTool = value; // set it to the value of the menu item selected
+                break;
+            case "fillShapes":
+                fillShapes = Boolean(value);
+                break;
+
+            default:
+                canvas2d[option](value);
+        }
+
     }
 
     // Initialize the Color menu
@@ -138,6 +184,7 @@ function CanvasPadApp()
             color: canvas2d.penColor(),
             width: canvas2d.penWidth(),
             opacity: canvas2d.penOpacity(),
+            fill: fillShapes,
             points: []
         }; // return these are a single object
     }
