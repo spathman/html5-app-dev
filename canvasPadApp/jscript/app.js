@@ -1,10 +1,12 @@
 "use strict";
 function CanvasPadApp()
 {
-    var version = " v4.1",
+    var version = " v4.2",
             canvas2d = new Canvas2D($("#main>canvas")),
+            toolbar = new Toolbar($("#toolbar")),
             drawing = false, // Keep track of when we are drawing
-            points = [], // Store current set of points
+            curTool = "pen",
+            curAction = newAction(curTool),
             actions = []; // Store all the sets of points
 
     function onMouseDown(e)
@@ -16,10 +18,10 @@ function CanvasPadApp()
     function penDown(pageX, pageY)
     {
         drawing = true; // Started drawing
-        points = [];
+        curAction = newAction(curTool);
         // Covert page coords to canvas coords and add it to current set of points
-        points.push(canvas2d.getCanvasPoint(pageX, pageY));
-        actions.push(points); // Add the current set of points to all points
+        curAction.points.push(canvas2d.getCanvasPoint(pageX, pageY));
+        actions.push(curAction); // Add the current set of points to all points
     }
     function onMouseMove(e)
     {
@@ -33,7 +35,7 @@ function CanvasPadApp()
 
         if (drawing)
         {
-            points.push(canvasPoint);
+            curAction.points.push(canvasPoint);
             redraw();
         }
     }
@@ -41,10 +43,16 @@ function CanvasPadApp()
     function redraw()
     {
         canvas2d.clear();
+        canvas2d.savePen();
         for (var i in actions)
         {
-            canvas2d.drawPoints(actions[i]);
+            var action = actions[i];
+            canvas2d.penColor(action.color)
+                    .penWidth(action.width)
+                    .penOpacity(action.opacity);
+            canvas2d.drawPoints(action.points);
         }
+        canvas2d.restorePen();
     }
     function showCoordinates(point)
     {
@@ -63,20 +71,92 @@ function CanvasPadApp()
 
     function penUp()
     {
-        drawing = false; // Stop drawing
+        if (drawing)
+        {
+            drawing = false; // Stop drawing
+            if (curAction.points.length < 2)
+            {
+                actions.pop(); // Pressed mouse button, but did not move it so cancel it
+            }
+        }
     }
 
+    function toolbarButtonClicked(action)
+    {
+        switch (action)
+        {
+            case "clear":
+                if (confirm("Clear the canvas?"))
+                {
+                    actions = [];
+                    redraw();
+                }
+                break;
+            case "undo":
+                actions.pop();
+                redraw();
+                break;
+        }
+    }
 
+    function menuItemClicked(option, value)
+    {
+        /*  The data-option attribute is the name of the method that is used to
+         set the property in the Canvas2D object. We use the square brace
+         method of accessing that method in the object, and then we execute
+         it passing the data-value attribute from the menu item into it. */
+        canvas2d[option](value);
+    }
+
+    // Initialize the Color menu
+    function initColorMenu()
+    {
+        /*  Get all of the color menu items and iterates over them using the
+         *  jQuery each() method. For each item, set the background color using
+         *  the jQuery css() method to the value of the data-value custom
+         *  attribute, which is a CSS color name.  */
+        $("#color-menu li").each(function (i, e) {
+            $(e).css("background-color", $(e).data("value"));
+        });
+    }
+
+    function initWidthMenu()
+    {
+        /*  Set the bottom border to the width in the data-value custom attribute
+         *  to give the user some idea of how big the line will be. */
+
+        $("#width-menu li").each(function (i, e) {
+            $(e).css("border-bottom",
+                    $(e).data("value") + "px solid black");
+        });
+    }
+    // Factory function to create an action
+    function newAction(tool)
+    {
+        return {
+            tool: tool,
+            color: canvas2d.penColor(),
+            width: canvas2d.penWidth(),
+            opacity: canvas2d.penOpacity(),
+            points: []
+        }; // return these are a single object
+    }
 
     this.start = function ()
     {
         $("#app header").append(version);
+
+        // Populate the color and width menus
+        initColorMenu();
+        initWidthMenu();
 
         // Mouse events on the canvas
         $("#main>canvas").mousemove(onMouseMove)
                 .mousedown(onMouseDown)
                 .mouseup(onMouseUp)
                 .mouseout(onMouseUp);
+        toolbar.toolbarButtonClicked = toolbarButtonClicked;
+        toolbar.menuItemClicked = menuItemClicked;
     };
 }
 

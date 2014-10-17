@@ -75,6 +75,18 @@ function Canvas2D($canvas)
         }
         return context;
     };
+
+    this.savePen = function ()
+    {
+        context.save();
+        return this;
+    };
+
+    this.restorePen = function ()
+    {
+        context.restore();
+        return this;
+    }
 }
 
 
