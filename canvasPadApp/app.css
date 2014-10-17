@@ -63,3 +63,51 @@ button
     background-color: white;
     box-shadow: 0 0 8px 2px #555;
 }
+#toolbar
+{
+    padding: 2px;
+    background-color: black;
+    background-color: rgba(0, 0, 0, 0.5); /* This will allow background color to bleeds through */
+}
+#toolbar button
+{
+    border: none;
+    background-color: transparent;
+    color: white;
+    font-size: 1em;
+}
+#toolbar .dropdown-menu
+{
+    /* Allows to position the menus under them */
+    display: inline-block;
+    position: relative;
+}
+#toolbar .menu
+{
+    display: none; /* hidden by default */
+    position: absolute; /* will not take up any space in the page */
+    top: 100%; /* Make them appear below the button instead of over it */
+    left: 0;
+    margin: 0;
+    padding-left: 1.5em;
+    border: 1px solid black;
+    box-shadow: 2px 2px 8px 1px rgba(0, 0, 0, 0.5); /* Gives an illution of depth */
+    background-color: silver;
+    color: black;
+    list-style-type: none;
+}
+#toolbar .menu>li{
+    margin: 0;
+    min-width: 4em; /* So menu item don't get too small */
+    height: 2em;
+    border-width: 0;
+    background-color: whitesmoke;
+    font-size: 0.75em;
+    cursor: pointer;
+}
+#toolbar .menu>li.selected
+{
+    list-style-type: circle;
+    background-color: lightblue;
+}
+
